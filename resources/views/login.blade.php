@@ -21,6 +21,6 @@ function twoSum($nums, $target) {
 // Вызов функции с параметрами
 $result = twoSum($nums, 9);
 
-// Вывод результата
+// Вывод результатаs
 dd($result);
 ?>
