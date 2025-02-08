@@ -4,20 +4,17 @@
         <div class="row">
             @foreach($books as $book)
                 <div class="col-md-3 mb-4">
-                    <div class="card" style="width: 100%;">
-                        <img src="{{ $book->img }}" class="card-img-top" alt="{{ $book->title }}">
-                        <div class="card-body">
+                    <div class="card mt-4"
+                         style="width: 100%; border: 1px solid #ddd; border-radius: 5px; overflow: hidden;">
+                        <img src="{{ asset('storage/' . $book->img) }}"
+                             class="img-fluid" alt="{{ $book->title }}"
+                             style="width: 100%; height: 200px; object-fit: cover;">
+                        <div class="card-body ">
                             <h5 class="card-title">{{ $book->title }}</h5>
-                            <p class="card-text">{{ $book->description }}</p>
+                            <p class="" style="color: #6c757d; margin: 0;"> {{ $book->author }}</p>
                         </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">{{ $book->author }}</li>
-                            <li class="list-group-item">{{ $book->publisher }}</li>
-                            <li class="list-group-item">{{ $book->year }}</li>
-                        </ul>
                         <div class="card-body">
-                            {{--                            <a href="{{ route('books.show', $book->id) }}" class="card-link">Подробнее</a>--}}
-                            <a href="#" class="card-link">Другая ссылка</a>
+                            <a href="#" class="card-link ">Купить</a>
                         </div>
                     </div>
                 </div>
