@@ -14,7 +14,7 @@ class BookController extends Controller
 {
     public function index()
     {
-        $books = Book::with(['authors', 'publishers'])
+        $books = Book::with(['authors', 'publisher'])
             ->latest('updated_at')
             ->paginate(10);
 
@@ -35,8 +35,7 @@ class BookController extends Controller
             'title' => 'required|string|max:255',
             'author_ids' => 'required|array',
             'author_ids.*' => 'exists:authors,id',
-            'publisher_ids' => 'nullable|array',
-            'publisher_ids.*' => 'exists:publishers,id',
+            'publisher_id' => 'required|exists:publishers,id',
             'year' => 'required|integer|min:1900|max:'.date('Y'),
             'img' => 'nullable|image|max:4096',
         ]);
@@ -52,17 +51,17 @@ class BookController extends Controller
             $validatedData['img'] = null;
         }
 
-        // Создание книги (без author_ids и publisher_ids)
+        // Создание книги
         $book = Book::create([
             'title' => $validatedData['title'],
+            'publisher_id' => $validatedData['publisher_id'],
             'year' => $validatedData['year'],
             'img' => $validatedData['img'],
             'slug' => $validatedData['slug'],
         ]);
 
-        // Синхронизация авторов и издателей через промежуточные таблицы
+        // Привязываем авторов через промежуточную таблицу
         $book->authors()->sync($validatedData['author_ids']);
-        $book->publishers()->sync($validatedData['publisher_ids'] ?? []);
 
         return redirect()->route('admin.books.index')
             ->with('success', 'Книга успешно добавлена!');
@@ -70,7 +69,7 @@ class BookController extends Controller
 
     public function show(string $id)
     {
-        $book = Book::with(['authors', 'publishers'])
+        $book = Book::with(['authors', 'publisher'])
             ->findOrFail($id);
 
         return view('admin.books.show', compact('book'));
@@ -78,7 +77,7 @@ class BookController extends Controller
 
     public function edit($id)
     {
-        $book = Book::with(['authors', 'publishers'])
+        $book = Book::with(['authors', 'publisher'])
             ->findOrFail($id);
         $authors = Author::all();
         $publishers = Publisher::all();
@@ -92,8 +91,7 @@ class BookController extends Controller
             'title' => 'required|string|max:255',
             'author_ids' => 'required|array',
             'author_ids.*' => 'exists:authors,id',
-            'publisher_ids' => 'nullable|array',
-            'publisher_ids.*' => 'exists:publishers,id',
+            'publisher_id' => 'required|exists:publishers,id',
             'year' => 'required|integer|min:1900|max:'.date('Y'),
             'img' => 'nullable|image|max:4096',
         ]);
@@ -111,17 +109,17 @@ class BookController extends Controller
             $book->img = $imagePath;
         }
 
-        // Обновляем основные данные книги
+        // Обновляем данные книги
         $book->update([
             'title' => $validated['title'],
+            'publisher_id' => $validated['publisher_id'],
             'year' => $validated['year'],
-            'img' => $book->img, // сохраняем текущее значение, если изображение не изменилось
+            'img' => $book->img,
             'slug' => Str::slug($validated['title']),
         ]);
 
-        // Синхронизация авторов и издателей через промежуточные таблицы
+        // Синхронизация авторов
         $book->authors()->sync($validated['author_ids']);
-        $book->publishers()->sync($validated['publisher_ids'] ?? []);
 
         return redirect()->route('admin.books.index')
             ->with('success', 'Книга успешно обновлена!');

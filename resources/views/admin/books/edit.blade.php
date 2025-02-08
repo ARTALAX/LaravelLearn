@@ -30,14 +30,22 @@
                     @endforeach
                 </select>
 
-                <select name="publisher_ids[]" multiple class="form-control mt-4">
-                    @foreach($publishers as $publisher)
-                        <option value="{{ $publisher->id }}"
-                            {{ in_array($publisher->id, old('publisher_ids', $publisher->pluck('id')->toArray())) ? 'selected' : '' }}>
-                            {{ $publisher->name }}
-                        </option>
-                    @endforeach
-                </select>
+                <div class="form-group mb-4">
+                    <label for="publisher" class="form-label">Издатель</label>
+                    <select name="publisher_id" id="publisher" class="form-control" required>
+                        <option value="" disabled selected>Выберите издателя</option>
+                        @foreach($publishers as $publisher)
+                            <option value="{{ $publisher->id }}"
+                                {{ old('publisher_id', $book->publisher_id) == $publisher->id ? 'selected' : '' }}>
+                                {{ $publisher->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('publisher_id')
+                    <div class="text-danger small">{{ $message }}</div>
+                    @enderror
+                </div>
+
 
                 <div class="form-group">
                     <label for="year">Год издания</label>
