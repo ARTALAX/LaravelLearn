@@ -22,25 +22,32 @@
                             @enderror
                         </div>
 
-                        <div class="form-group mb-4">
-                            <label for="author" class="form-label">Автор</label>
-                            <input type="text" name="author" id="author"
-                                   class="form-control @error('author') is-invalid @enderror"
-                                   placeholder="Введите имя автора" value="{{ old('author') }}">
-                            @error('author')
-                            <div class="mt-2 text-danger small">{{ $message }}</div>
-                            @enderror
-                        </div>
+                        {{--                        <div class="form-group mb-4">--}}
+                        {{--                            <label for="author" class="form-label">Автор</label>--}}
+                        {{--                            <input type="text" name="author" id="author"--}}
+                        {{--                                   class="form-control @error('author') is-invalid @enderror"--}}
+                        {{--                                   placeholder="Введите имя автора" value="{{ old('author') }}">--}}
+                        {{--                            @error('author')--}}
+                        {{--                            <div class="mt-2 text-danger small">{{ $message }}</div>--}}
+                        {{--                            @enderror--}}
+                        {{--                        </div>--}}
+                        <select name="author_ids[]" multiple class="form-control">
+                            @foreach($authors as $author)
+                                <option value="{{ $author->id }}"
+                                    {{ in_array($author->id, old('author_ids', $author->pluck('id')->toArray())) ? 'selected' : '' }}>
+                                    {{ $author->name }}
+                                </option>
+                            @endforeach
+                        </select>
 
-                        <div class="form-group mb-4">
-                            <label for="publisher" class="form-label">Издатель</label>
-                            <input type="text" name="publisher" id="publisher"
-                                   class="form-control @error('publisher') is-invalid @enderror"
-                                   placeholder="Введите имя издателя" value="{{ old('publisher') }}">
-                            @error('publisher')
-                            <div class="mt-2 text-danger small">{{ $message }}</div>
-                            @enderror
-                        </div>
+                        <select name="publisher_ids[]" multiple class="form-control mt-4">
+                            @foreach($publishers as $publisher)
+                                <option value="{{ $publisher->id }}"
+                                    {{ in_array($publisher->id, old('publisher_ids', $publisher->pluck('id')->toArray())) ? 'selected' : '' }}>
+                                    {{ $publisher->name }}
+                                </option>
+                            @endforeach
+                        </select>
 
                         <div class="form-group mb-4">
                             <label for="year" class="form-label">Год издания</label>

@@ -12,9 +12,9 @@
 
                         <p><strong>Название:</strong> {{ $book->title }}</p>
 
-                        <p><strong>Автор:</strong> {{ $book->author }}</p>
-                        <p><strong>Издатель:</strong> {{ $book->publisher }}</p>
-                        <p><strong>Год издания:</strong> {{ $book->year }}</p>
+                        <p><strong>Автор:</strong> {{ $book->authors->pluck('name')->implode(',') }}</p>
+                        <p><strong>Издатель:</strong> {{ $book->publishers->pluck('name')->implode(',') }}</p>
+                        <p><strong>Год издания:</strong> {{ $book->year}}</p>
                         <p><strong>Обложка:</strong> <img src="{{ asset('storage/' . $book->img) }}"
                                                           class="img-fluid" alt="{{ $book->title }}">
                         </p>

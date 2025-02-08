@@ -21,23 +21,23 @@
                     @enderror
                 </div>
 
-                <div class="form-group">
-                    <label for="author">Автор</label>
-                    <input type="text" name="author" id="author" class="form-control"
-                           value="{{ old('author', $book->author) }}">
-                    @error('author')
-                    <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
+                <select name="author_ids[]" multiple class="form-control">
+                    @foreach($authors as $author)
+                        <option value="{{ $author->id }}"
+                            {{ in_array($author->id, old('author_ids', $author->pluck('id')->toArray())) ? 'selected' : '' }}>
+                            {{ $author->name }}
+                        </option>
+                    @endforeach
+                </select>
 
-                <div class="form-group">
-                    <label for="publisher">Издатель</label>
-                    <input type="text" name="publisher" id="publisher" class="form-control"
-                           value="{{ old('publisher', $book->publisher) }}">
-                    @error('publisher')
-                    <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
+                <select name="publisher_ids[]" multiple class="form-control mt-4">
+                    @foreach($publishers as $publisher)
+                        <option value="{{ $publisher->id }}"
+                            {{ in_array($publisher->id, old('publisher_ids', $publisher->pluck('id')->toArray())) ? 'selected' : '' }}>
+                            {{ $publisher->name }}
+                        </option>
+                    @endforeach
+                </select>
 
                 <div class="form-group">
                     <label for="year">Год издания</label>
