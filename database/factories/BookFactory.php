@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Book;
+use App\Models\Publisher;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -24,6 +25,8 @@ class BookFactory extends Factory
             'title' => $this->faker->sentence(3),
             'slug' => $this->faker->slug(),
             'img' => $this->faker->imageUrl(),
+
+            'publisher_id' => Publisher::query()->inRandomOrder()->value('id'),
         ];
     }
 }

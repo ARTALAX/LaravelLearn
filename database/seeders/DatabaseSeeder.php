@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         // profile::factory(10)->create();
 
         $this->call([
-            //            BookSeeder::class,
+            BookSeeder::class,
             //            RoleSeeder::class,
             AuthorSeeder::class,
             PublisherSeeder::class,

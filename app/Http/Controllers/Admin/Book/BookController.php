@@ -77,8 +77,7 @@ class BookController extends Controller
 
     public function edit($id)
     {
-        $book = Book::with(['authors', 'publisher'])
-            ->findOrFail($id);
+        $book = Book::with(['authors', 'publisher'])->findOrFail($id);
         $authors = Author::all();
         $publishers = Publisher::all();
 

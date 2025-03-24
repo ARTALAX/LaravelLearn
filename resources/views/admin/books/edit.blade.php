@@ -24,11 +24,12 @@
                 <select name="author_ids[]" multiple class="form-control">
                     @foreach($authors as $author)
                         <option value="{{ $author->id }}"
-                            {{ in_array($author->id, old('author_ids', $author->pluck('id')->toArray())) ? 'selected' : '' }}>
+                            {{ in_array($author->id, old('author_ids', $book->authors->pluck('id')->toArray())) ? 'selected' : '' }}>
                             {{ $author->name }}
                         </option>
                     @endforeach
                 </select>
+
 
                 <div class="form-group mb-4">
                     <label for="publisher" class="form-label">Издатель</label>
@@ -36,7 +37,8 @@
                         <option value="" disabled selected>Выберите издателя</option>
                         @foreach($publishers as $publisher)
                             <option value="{{ $publisher->id }}"
-                                {{ old('publisher_id', $book->publisher_id) == $publisher->id ? 'selected' : '' }}>
+                                {{ in_array($publisher->id, old('publisher_ids', [$book->publisher->id])) ? 'selected' : '' }}>
+
                                 {{ $publisher->name }}
                             </option>
                         @endforeach
