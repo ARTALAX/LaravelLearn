@@ -1,0 +1,63 @@
+## Running the Project with Docker
+
+This project provides a complete Docker setup for local development and testing. The Docker configuration includes PHP 8.2 (FPM), Composer 2.7, MySQL, and Redis, tailored for this Laravel-based application.
+
+### Project-Specific Requirements
+- **PHP**: 8.2 (FPM)
+- **Composer**: 2.7
+- **MySQL**: latest (default database: `app`, user: `appuser`, password: `secret`, root password: `rootsecret`)
+- **Redis**: latest
+- **Node.js**: Not included in Docker setup (front-end build handled outside container if needed)
+
+### Required Environment Variables
+- The application expects a `.env` file in the root directory. You can use the provided `.env.example` as a template:
+  ```sh
+  cp .env.example .env
+  # Edit .env as needed for your environment
+  ```
+- The `docker-compose.yml` references the `.env` file (uncomment the `env_file` line if you want to pass it automatically).
+- MySQL credentials are set in the compose file, but you may want to align them with your `.env` file:
+  - `DB_DATABASE=app`
+  - `DB_USERNAME=appuser`
+  - `DB_PASSWORD=secret`
+  - `DB_HOST=mysql`
+  - `DB_PORT=3306`
+
+### Build and Run Instructions
+1. **Build and start all services:**
+   ```sh
+   docker compose up --build
+   ```
+   This will build the PHP application image and start the `php-app`, `mysql`, and `redis` containers.
+
+2. **Accessing the Application:**
+   - The PHP-FPM service is exposed on port **9000** (for use with a web server or for development integration).
+   - MySQL is available on port **3306**.
+   - Redis is available on port **6379**.
+
+3. **File Permissions:**
+   - The Dockerfile ensures correct permissions for `storage` and `bootstrap/cache` directories.
+   - If you encounter permission issues, ensure your host user has access to these directories.
+
+4. **Database Migrations & Seeding:**
+   - After containers are up, run migrations and seeders as needed:
+     ```sh
+     docker compose exec php-app php artisan migrate --seed
+     ```
+
+### Ports Exposed
+| Service   | Host Port | Container Port |
+|-----------|-----------|---------------|
+| php-app   | 9000      | 9000          |
+| mysql     | 3306      | 3306          |
+| redis     | 6379      | 6379          |
+
+### Special Configuration
+- The application runs as a non-root user (`appuser`) inside the container for improved security.
+- Composer dependencies are installed in a multi-stage build for optimized images.
+- The `php-app` service depends on both `mysql` and `redis` and will wait for them to be healthy before starting.
+- The `.dockerignore` file is used to exclude unnecessary files (like `.env`, `.git`, etc.) from the build context.
+
+---
+
+_Refer to the `docker-compose.yml` and `Dockerfile` for further customization as needed for your environment._

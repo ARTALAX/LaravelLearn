@@ -1,0 +1,110 @@
+# 1. Version control
+.git/
+.gitignore
+.gitattributes
+.github/
+.svn/
+.hg/
+
+# 2. IDE/editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime*
+*.DS_Store
+
+# 3. Node.js dependencies and artifacts
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# 4. PHP build/test/dev artifacts
+.phpunit.result.cache
+
+# 5. Build outputs and static assets
+public/build/
+public/dist/
+public/vendor/
+
+# 6. Test files and directories
+test/
+tests/
+
+# 7. Temporary and cache files
+tmp/
+temp/
+*.tmp
+.cache/
+
+# 8. Environment and secrets
+.env
+.env.*
+*.env
+*.pem
+*.key
+*.crt
+
+# 9. Local configuration and overrides
+.local/
+config.local.*
+*.local.yml
+
+# 10. Documentation and markdown
+*.md
+CHANGELOG.md
+docs/
+README*
+
+# 11. Docker and compose files
+.dockerignore
+Dockerfile*
+docker-compose*
+
+# 12. Miscellaneous
+*.log
+*.bak
+*.old
+*.orig
+*.example
+
+# 13. Compiled and generated files
+*.class
+*.o
+*.so
+*.exe
+*.dll
+*.pyc
+*.pyo
+__pycache__/
+.pytest_cache/
+.coverage
+
+# 14. Go-specific (not detected, but for completeness)
+*.test
+.go-cache/
+
+# 15. Java-specific (not detected, but for completeness)
+target/
+.gradle/
+
+# 16. Storage and runtime data
+storage/
+bootstrap/cache/
+database/database.sqlite
+/public/storage
+
+# 17. Qodo and other project-specific
+.qodo/
+
+# 18. Exclude vendor/ (except for composer install in PHP, so do not ignore vendor/)
+# (If you use composer install in Docker, do not ignore vendor/)
+
+# 19. Exclude language files (keep lang/)
+# (Do not ignore lang/)
+
+# 20. Exclude config/ (keep config/)
+# (Do not ignore config/)
+
+# End of .dockerignore

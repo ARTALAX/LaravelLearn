@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [MainController::class, 'index'])->name('home');
 Route::get('/users', [UserController::class, 'getUsers'])->name('users');
+Route::get('/show/{id}', [UserController::class, 'show'])->name('show');
 
 Route::prefix('/login')->group(function () {
     Route::get('/', [LoginController::class, 'create'])->name('login');

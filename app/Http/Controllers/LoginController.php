@@ -28,6 +28,7 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             return redirect()->route('profile.create')->with('success', 'You are logged in');
+            
         }
 
         throw ValidationException::withMessages([

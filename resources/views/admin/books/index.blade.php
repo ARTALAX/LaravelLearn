@@ -8,7 +8,11 @@
                 {{ session('success') }}
             </div>
         @endif
-
+        <script type="modulep">
+            window.Echo.channel('book').listen('ReactedEvent', (e) => {
+                console.log(e);
+            });
+        </script>
         @foreach ($books as $book)
             <div>
                 <ol class="list-group mb-2">

@@ -1,0 +1,47 @@
+services:
+  php-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: Laravel
+    restart: unless-stopped
+    init: true
+    working_dir: /var/www/html
+    # Exposes PHP-FPM on port 9000 (as per Dockerfile)
+    ports:
+      - "9000:9000"
+    # env_file: ./.env  # Uncomment if .env file exists
+    networks:
+      - appnet
+    depends_on:
+      - mysql
+
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: library
+      MYSQL_USER: root
+      MYSQL_PASSWORD:
+      MYSQL_ROOT_PASSWORD:
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - appnet
+
+networks:
+  appnet:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local

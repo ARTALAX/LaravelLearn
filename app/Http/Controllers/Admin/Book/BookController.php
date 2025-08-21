@@ -115,6 +115,7 @@ class BookController extends Controller
             'year' => $validated['year'],
             'img' => $book->img,
             'slug' => Str::slug($validated['title']),
+            
         ]);
 
         // Синхронизация авторов
